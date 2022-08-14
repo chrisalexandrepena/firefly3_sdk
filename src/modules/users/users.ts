@@ -49,3 +49,32 @@ export async function createUser(
   if (isUser(createdUser)) return createdUser;
   else throw new InvalidApiResponse("Firefly api return unknown User format");
 }
+
+export async function updateUser(
+  userId: string,
+  user: UserBlueprint,
+  config: Config
+): Promise<User> {
+  if (!configIsValid(config)) throw new InvalidConfig();
+  const updatedUser = await callFireflyApi<User>(
+    AvailableMethods.PUT,
+    endpoints.users.update(userId),
+    user,
+    config
+  );
+  if (isUser(updatedUser)) return updatedUser;
+  else throw new InvalidApiResponse("Firefly api return unknown User format");
+}
+
+export async function deleteUser(
+  userId: string,
+  config: Config
+): Promise<void> {
+  if (!configIsValid(config)) throw new InvalidConfig();
+  await callFireflyApi<User>(
+    AvailableMethods.DELETE,
+    endpoints.users.delete(userId),
+    undefined,
+    config
+  );
+}
