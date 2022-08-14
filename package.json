@@ -5,17 +5,30 @@
   "main": "index.js",
   "scripts": {
     "test": "jest -c jest.config.json",
-    "build": "rimraf dist && tsc --build ./tsconfig.json"
+    "build": "rimraf dist && tsc --build ./tsconfig.json",
+    "tsversion": "tsc --version"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/jest": "^28.1.6",
+    "@types/nock": "^11.1.0",
     "@types/node": "^18.7.2",
     "dotenv": "^16.0.1",
+    "jest": "^28.1.3",
+    "nock": "^13.2.9",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "test": "^3.2.1",
+    "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "ajv": "^8.11.0",
+    "ajv-formats": "^2.1.1",
+    "axios": "^0.27.2",
+    "json-schema-to-ts": "^2.5.5"
   }
 }
