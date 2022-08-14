@@ -1,0 +1,51 @@
+import { areUsers, isUser, User, UserBlueprint } from "./users.types";
+import configIsValid from "../../shared/utils/configIsValid";
+import {
+  InvalidApiResponse,
+  InvalidConfig,
+} from "../../shared/errors/commonErrors";
+import Config from "../../shared/types/config.types";
+import {
+  AvailableMethods,
+  callFireflyApi,
+} from "../../shared/utils/callFireflyApi";
+import endpoints from "../../shared/configs/endpoints";
+
+export async function listUsers(config: Config): Promise<User[]> {
+  if (!configIsValid(config)) throw new InvalidConfig();
+  const users = await callFireflyApi<User[]>(
+    AvailableMethods.GET,
+    endpoints.users.list(),
+    undefined,
+    config
+  );
+  if (areUsers(users)) return users;
+  else throw new InvalidApiResponse("Firefly api return unknown User[] format");
+}
+
+export async function getUser(userId: string, config: Config): Promise<User> {
+  if (!configIsValid(config)) throw new InvalidConfig();
+  const user = await callFireflyApi<User>(
+    AvailableMethods.GET,
+    endpoints.users.get(userId),
+    undefined,
+    config
+  );
+  if (isUser(user)) return user;
+  else throw new InvalidApiResponse("Firefly api return unknown User format");
+}
+
+export async function createUser(
+  user: UserBlueprint,
+  config: Config
+): Promise<User> {
+  if (!configIsValid(config)) throw new InvalidConfig();
+  const createdUser = await callFireflyApi<User>(
+    AvailableMethods.POST,
+    endpoints.users.create(),
+    user,
+    config
+  );
+  if (isUser(createdUser)) return createdUser;
+  else throw new InvalidApiResponse("Firefly api return unknown User format");
+}
