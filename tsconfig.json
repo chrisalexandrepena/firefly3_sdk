@@ -22,6 +22,7 @@
   "exclude": [
     "node_modules",
     "src/__mocks__",
+    "src/__fixtures__",
     "/**/*.spec.ts",
     "src/setupTests.ts"
   ]
