@@ -36,19 +36,36 @@ const UserSchema = {
       },
     },
   },
+  additionalProperties: false,
+  required: ["type", "id", "attributes", "links"],
 } as const;
 
 export type User = FromSchema<typeof UserSchema>;
 
-export type UserBlueprint = {
-  email: string;
-  blocked?: boolean;
-  blocked_code?: string | null;
-  role?: string | null;
-};
+const UserBlueprintSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  type: "object",
+  properties: {
+    email: { type: "string" },
+    blocked: { type: "boolean" },
+    blocked_code: { type: "string", nullable: true },
+    role: { type: "string", nullable: true },
+  },
+  additionalProperties: false,
+  required: ["email"],
+} as const;
+export type UserBlueprint = FromSchema<typeof UserBlueprintSchema>;
 
 export function isUser(e: any): e is User {
   const { isValid } = validateSchemaInstance<User>(e, UserSchema);
+  return isValid;
+}
+
+export function isUserBlueprint(e: any): e is UserBlueprint {
+  const { isValid } = validateSchemaInstance<UserBlueprint>(
+    e,
+    UserBlueprintSchema
+  );
   return isValid;
 }
 

@@ -1,4 +1,4 @@
-import { User } from "../../../modules/users/users.types";
+import { User } from "../users.types";
 
 export default [
   {

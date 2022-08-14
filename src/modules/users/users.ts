@@ -11,12 +11,16 @@ import {
 } from "../../shared/utils/callFireflyApi";
 import endpoints from "../../shared/configs/endpoints";
 
-export async function listUsers(config: Config): Promise<User[]> {
+export async function listUsers(
+  options: { page?: string } | undefined,
+  config: Config
+): Promise<User[]> {
   if (!configIsValid(config)) throw new InvalidConfig();
   const users = await callFireflyApi<User[]>(
     AvailableMethods.GET,
     endpoints.users.list(),
     undefined,
+    options,
     config
   );
   if (areUsers(users)) return users;
@@ -28,6 +32,7 @@ export async function getUser(userId: string, config: Config): Promise<User> {
   const user = await callFireflyApi<User>(
     AvailableMethods.GET,
     endpoints.users.get(userId),
+    undefined,
     undefined,
     config
   );
@@ -44,6 +49,7 @@ export async function createUser(
     AvailableMethods.POST,
     endpoints.users.create(),
     user,
+    undefined,
     config
   );
   if (isUser(createdUser)) return createdUser;
@@ -60,6 +66,7 @@ export async function updateUser(
     AvailableMethods.PUT,
     endpoints.users.update(userId),
     user,
+    undefined,
     config
   );
   if (isUser(updatedUser)) return updatedUser;
@@ -74,6 +81,7 @@ export async function deleteUser(
   await callFireflyApi<User>(
     AvailableMethods.DELETE,
     endpoints.users.delete(userId),
+    undefined,
     undefined,
     config
   );
