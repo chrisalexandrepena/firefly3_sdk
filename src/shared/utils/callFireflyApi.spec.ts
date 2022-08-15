@@ -24,7 +24,7 @@ describe("Unit tests for users endoints", () => {
       receivedToken = this.req.headers.authorization;
       return [200, { data: testUsers }];
     });
-    await listUsers(config);
+    await listUsers(undefined, config);
     expect(receivedToken).toEqual(`Bearer ${config.accessToken}`);
   });
 });
